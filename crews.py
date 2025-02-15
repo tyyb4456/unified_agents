@@ -60,17 +60,6 @@ crews = {
         required_inputs={"topic": str},
     ),
 
-
-    "trending post agent": CrewDefinition(
-        Crew(
-            agents = [trending_posts_agent],
-            tasks = [trending_posts_task],
-            process = Process.sequential,
-        ),
-        required_inputs = {"subreddit_name": str},
-        optional_inputs = {"query": str},
-    ),
-
     "medical agent": CrewDefinition(
         Crew(
             agents=[medical_agent],

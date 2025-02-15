@@ -1,20 +1,20 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import Dict, Any
-from mangum import Mangum  # Required for Vercel serverless deployment
+from typing import Dict, Any, Optional
 from crews import crews  # Import the crew definitions
 
 app = FastAPI()
 
-# Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins; modify this for security in production
+    allow_origins=["*"],  # Change to "*" if testing
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
 
 class CrewRequest(BaseModel):
     crew_name: str
@@ -37,17 +37,10 @@ async def execute_crew(request: CrewRequest):
             status_code=400,
             detail=f"Missing required inputs: {', '.join(missing_keys)}",
         )
-
-    # Filter inputs: include only valid required and optional keys
-    valid_inputs = {
-        k: v for k, v in request.inputs.items()
-        if k in crew_definition.required_inputs or k in crew_definition.optional_inputs
-    }
+     # Filter inputs: include only valid required and optional keys
+    valid_inputs = {k: v for k, v in request.inputs.items() if k in crew_definition.required_inputs or k in crew_definition.optional_inputs}
 
     # Execute the selected crew
     output = crew_definition.crew.kickoff(inputs=valid_inputs)
 
     return {"crew_name": request.crew_name, "output": output}
-
-# Required for Vercel
-handler = Mangum(app)

@@ -61,16 +61,6 @@ crews = {
     ),
 
 
-    # "crew5": CrewDefinition(
-    #     Crew(
-    #         agents=[stock_market_agent],
-    #         tasks=[stock_market_task],
-    #         process=Process.sequential,
-    #     ),
-    #     required_inputs={"symbol": str, "function": str},
-    #     optional_inputs={"query": str},
-    # ),
-
     "trending post agent": CrewDefinition(
         Crew(
             agents = [trending_posts_agent],

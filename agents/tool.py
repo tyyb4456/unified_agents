@@ -2,7 +2,6 @@ from crewai.tools import tool,BaseTool
 import requests
 import os
 from yahooquery import Ticker
-from newsapi import NewsApiClient
 import praw
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
@@ -92,41 +91,6 @@ def fetch_investment_analysis(symbol: str):
     except Exception as e:
         return {"error": str(e)}
 
-# alpha_van_api_key = os.getenv("ALPHA_VANTAGE_API_KEY")
-
-# @tool("get financial reports and market data from Alpha Vantage")
-# def fetch_alpha_vantage_data(symbol: str, function: str = "TIME_SERIES_DAILY_ADJUSTED"):
-#     """
-#     Fetches financial reports and market data from Alpha Vantage.
-
-#     Args:
-#         symbol (str): Stock symbol (e.g., 'AAPL' for Apple).
-#         function (str): API function (default is "TIME_SERIES_DAILY_ADJUSTED").
-
-#     Returns:
-#         dict: JSON response from Alpha Vantage API.
-#     """
-#     try:
-#         url = f"https://www.alphavantage.co/query?function={function}&symbol={symbol}&apikey={alpha_van_api_key}"
-#         response = requests.get(url)
-#         data = response.json()
-#         return data
-#     except Exception as e:
-#         return {"error": str(e)}
-    
-# @tool("get market global open and close status")
-# def get_market_status(function : str = "GLOBAL_MARKET"):
-#     """
-#     Fetches Global market open and close status data from Alpha Vantage.
-#     """
-
-#     try:
-#         url = f'https://www.alphavantage.co/query?{function}=MARKET_STATUS&apikey={alpha_van_api_key}'
-#         response = requests.get(url)
-#         data = response.json()
-#         return data
-#     except Exception as e:
-#         return {"error": str(e)}
     
 clientid = os.getenv("REDDIT_CLIENT_ID")
 clientsecret = os.getenv("REDDIT_CLIENT_SECRET")

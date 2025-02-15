@@ -72,26 +72,6 @@ query_answerer_agent_financial = Agent(
     llm=llm  # Assumes llm is defined and configured elsewhere.
 )
 
-# # Create the Stock Market Agent using the provided tools.
-# stock_market_agent = Agent(
-#     role="Stock Market Agent",
-#     goal=(
-#         """
-#         Retrieve stock market data for the given stock symbol `{symbol}` using the function `{function}` from the Alpha Vantage API. Additionally, assess the global market status to provide a well-rounded market analysis. If a specific query is provided, incorporate it into the analysis to offer relevant insights. Otherwise, generate a structured summary that includes:  
-#         - **Stock Performance:** Daily adjusted data for the given stock.  
-#         - **Market Status:** Current global market open/close status.  
-#         - **Overall Insights:** A comprehensive evaluation of the stock's performance in relation to global market conditions.  
-#         """
-#     ),
-#     verbose=True,
-#     backstory=(
-#         """You are a stock market expert with deep knowledge of financial data analysis. You specialize in retrieving and analyzing stock data while keeping a pulse on global market conditions. Regardless of whether a specific query is provided, you deliver a comprehensive report that includes stock performance insights, global market status, and broader financial trends. Your goal is to ensure investors and analysts receive an informed and structured evaluation of the stock market landscape."""
-#     ),
-#     tools=[fetch_alpha_vantage_data, get_market_status],
-#     allow_delegation=True,
-#     llm=llm  # Assumes llm is defined elsewhere in your code.
-# )
-
 news_researcher = Agent(
     role="{topic} Senior News Researcher",
     goal=("Uncover latest news in {topic}"),

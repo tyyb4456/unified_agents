@@ -65,24 +65,6 @@ reporting_task = Task(
                      """)
 )
 
-# stock_market_task = Task(
-#     description=(
-#         """Retrieve stock market data for the given stock symbol {symbol} using the function {function} from the Alpha Vantage API. 
-#         Additionally, fetch global market open/close status to provide a broader market analysis. 
-#         If a specific query is provided, tailor your insights accordingly. Otherwise, generate a structured summary that includes:  
-#         - **Stock Performance:** Daily adjusted data for the requested stock.  
-#         - **Market Status:** Current global market open/close status.  
-#         - **Overall Insights:** A well-rounded evaluation of the stock's performance in relation to global market conditions."""
-#     ),
-#     agent=stock_market_agent,
-#     expected_output=(
-#         """A comprehensive report that includes:  
-#         - **Detailed Stock Data:** Time-series financial data, including adjusted closing prices, volume, and trends.  
-#         - **Market Status Overview:** The global market's open/close status to provide context on overall trading conditions.  
-#         - **Actionable Insights:** A structured analysis of how the stock is performing in relation to market conditions.  
-#         If a specific query is provided, include tailored insights addressing the query while ensuring a complete stock market evaluation."""
-#     )
-# )
 
 trending_posts_task = Task(
     description=(

@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Dict, Any, Optional
 from crews import crews  # Import the crew definitions
+import os
+import uvicorn
 
 app = FastAPI()
 
@@ -44,3 +46,8 @@ async def execute_crew(request: CrewRequest):
     output = crew_definition.crew.kickoff(inputs=valid_inputs)
 
     return {"crew_name": request.crew_name, "output": output}
+
+
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)

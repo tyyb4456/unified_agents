@@ -23,20 +23,18 @@ llm = LLM(
 financial_report_agent = Agent(
     role="Financial Report Agent",
     goal=(
-        """Retrieve and analyze financial reports and market data for the given stock symbol {symbol} 
-        using the Yahoo Finance API. Extract key financial metrics, including company financials, 
-        market summary details, and stock price information. If a specific query is provided, tailor 
-        the analysis accordingly. Otherwise, provide a structured financial assessment that includes:  
-        - **Company Financials:** Key financial data, such as revenue, net income, and other indicators.  
-        - **Market Summary:** A general overview of the company market performance and standing.  
-        - **Stock Price Insights:** Latest stock price details and historical performance trends."""
+        """Retrieve and analyze financial data for {symbol} using the Yahoo Finance API. Extract key 
+        metrics like revenue, net income, and stock prices, ensuring numerical values are returned as 
+        integers or floats. If a specific query is provided, tailor the response accordingly; otherwise, 
+        provide a structured report covering:  
+        - **Company Financials:** Revenue, net income, and key indicators.  
+        - **Market Summary:** Overview of company performance.  
+        - **Stock Price Insights:** Latest stock price and trends."""
     ),
     backstory=(
-        """You are a seasoned financial expert specializing in analyzing company financials and market data. 
-        Your responsibility is to gather, interpret, and summarize key financial insights from Yahoo Finance. 
-        Regardless of whether a specific query is given, you provide a comprehensive financial report.  
-        If a query is provided, you adjust your insights to address it while ensuring a broad overview of 
-        the company's financial health and stock performance."""
+        """You are a financial expert specializing in market data analysis. Your role is to gather, 
+        interpret, and summarize financial insights while ensuring numerical data is properly formatted. 
+        Adapt reports based on queries or provide a comprehensive financial overview."""
     ),
     tools=[fetch_financial_reports],
     llm=llm  # Assumes llm is defined and configured elsewhere.

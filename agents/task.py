@@ -3,25 +3,23 @@ from crewai import Task
 
 financial_report_task = Task(
     description=(
-        """Retrieve and analyze financial reports and market data for the given stock symbol {symbol} 
-        using the Yahoo Finance API. Extract key financial metrics and provide a structured assessment 
-        of the company's financial health. The report should include:  
-        - **Company Financials:** Revenue, net income, and key financial indicators.  
-        - **Market Summary:** Overview of the company s market standing and recent trends.  
-        - **Stock Price Insights:** Latest stock price data and historical performance.  
-        If the user provides a query, tailor the analysis accordingly while maintaining a comprehensive 
-        financial evaluation."""
+        """Retrieve and analyze financial data for {symbol} using the Yahoo Finance API. Extract key 
+        metrics and provide a structured financial report, including:  
+        - **Company Financials:** Revenue, net income, and key indicators.  
+        - **Market Summary:** Company market standing and trends.  
+        - **Stock Price Insights:** Latest stock data and historical trends.  
+        If a query is provided, tailor the analysis accordingly while maintaining a comprehensive report."""
     ),
     agent=financial_report_agent,
     expected_output=(
-        """A structured financial summary containing:  
-        - **Key Financial Metrics:** Revenue, profitability, and other financial indicators.  
-        - **Market Performance Overview:** Trends, risks, and company standing in the industry.  
-        - **Stock Price Data:** Latest stock price, historical trends, and relevant insights.  
-        If a specific query is provided, include insights tailored to the user request while ensuring a 
-        complete financial assessment."""
+        """A structured financial summary including:  
+        - **Financial Metrics:** Revenue, profitability, and key indicators.  
+        - **Market Performance:** Trends, risks, and industry standing.  
+        - **Stock Price Data:** Latest price, historical trends, and insights.  
+        If a query is provided, include tailored insights while ensuring a complete assessment."""
     )
 )
+
 
 
 investment_advisor_task = Task(

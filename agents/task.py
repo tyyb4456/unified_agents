@@ -66,35 +66,7 @@ reporting_task = Task(
 )
 
 medical_task = Task(
-    description=(
-        """Retrieve medical research data from PubMed using E-utilities based on the search term {term} and fetch up to {retmax} articles.  
-        If a specific query is provided, generate a **detailed response** by leveraging expert-level medical knowledge  
-        while incorporating relevant insights from the retrieved articles.  
-        If no query is provided, conduct a **comprehensive analysis** of the abstracts, summarizing key findings,  
-        medical implications, and recommendations in a well-structured format."""
-    ),
+    description="Retrieve up to PubMed articles for {term}. Provide a short expert response if a query is given; otherwise, summarize key findings and recommendations.",
     agent=medical_agent,
-    expected_output=(
-        """A detailed medical report including:  
-        - **If a query is provided:** A **well-explained, expert-level response** addressing the query,  
-          enriched with relevant research findings.  
-        - **If no query is given:** A **structured summary** of retrieved PubMed abstracts,  
-          highlighting key insights, medical implications, and expert recommendations.  
-        
-        The output should be **clear, structured, and informative**, making complex medical data easy to understand."""
-    )
-)
-medical_query_answerer_task = Task(
-    description=(
-        """Retrieve and analyze medical research articles related to a given search term.  
-        The agent will provide a general response based on existing medical knowledge  
-        and enhance it with insights from relevant PubMed abstracts."""
-    ),
-    agent=medical_query_response_agent,
-    expected_output=(
-        """A structured response including:  
-        - A general overview of the medical topic based on known information.  
-        - Key insights from relevant research articles, including study findings or summaries.  
-        - Citations or references to the retrieved abstracts for credibility."""
-    )
+    expected_output="A clear medical report: expert response for queries or a structured summary of key insights if no query is provided."
 )

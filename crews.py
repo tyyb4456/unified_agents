@@ -67,18 +67,7 @@ crews = {
             process=Process.sequential,
         ),
         required_inputs={"term": str},
-        optional_inputs={"retmax" : str , "query": str},
-    ),
+        optional_inputs={"query": str},
+    )
 
-    "medical query answererer" : CrewDefinition(
-        Crew(
-            agents=[medical_query_response_agent],
-            tasks=[medical_query_answerer_task],
-            process = Process.sequential,
-
-        ),
-        required_inputs={"term": str, "query": str},
-        optional_inputs={"retmax" : str}
-    ),
-    
 }

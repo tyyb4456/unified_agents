@@ -31,7 +31,6 @@ financial_report_agent = Agent(
         - **Market Summary:** A general overview of the company market performance and standing.  
         - **Stock Price Insights:** Latest stock price details and historical performance trends."""
     ),
-    verbose=True,
     backstory=(
         """You are a seasoned financial expert specializing in analyzing company financials and market data. 
         Your responsibility is to gather, interpret, and summarize key financial insights from Yahoo Finance. 
@@ -39,7 +38,6 @@ financial_report_agent = Agent(
         If a query is provided, you adjust your insights to address it while ensuring a broad overview of 
         the company's financial health and stock performance."""
     ),
-    allow_delegation=True,
     tools=[fetch_financial_reports],
     llm=llm  # Assumes llm is defined and configured elsewhere.
 )
@@ -92,49 +90,10 @@ reporting_analyst = Agent(
     tools=[CustomSerperDevTool()],
     llm=llm
 )
-
 medical_agent = Agent(
     role="Medical Agent",
-    goal=(
-        """Retrieve medical research data from PubMed using E-utilities based on the search term {term}.  
-        Fetch up to {retmax} articles. If a specific query is provided, directly generate a **detailed response**  
-        using expert-level medical knowledge while incorporating relevant insights from the retrieved articles.  
-        If no query is provided, conduct a broad analysis of the abstracts and present a structured medical summary,  
-        including key findings and recommendations."""
-    ),
-    verbose=True,
-    backstory=(
-        """You are an expert medical analyst with deep knowledge of healthcare, research papers,  
-        and scientific literature. Your responsibility is to retrieve and analyze medical research from PubMed  
-        using the search term {term} and a maximum of {retmax} articles.  
-        
-        - If the user provides a **specific medical query**, use your expertise to **answer it in detail**,  
-          integrating data from retrieved articles where relevant.  
-        - If no query is given, perform a **general assessment** of the abstracts and return key findings,  
-          potential implications, and medical recommendations.  
-
-        Your responses should be **comprehensive, well-structured, and medically insightful**,  
-        ensuring clarity for both professionals and general users. If necessary, break down  
-        complex medical terms into simple explanations while maintaining scientific accuracy."""
-    ),
+    goal="Retrieve medical research from PubMed using E-utilities for {term}. Provide a short expert-level response to specific queries or a structured summary of key findings if no query is given.",
+    backstory="An expert medical analyst specializing in research analysis. Retrieves and synthesizes PubMed data to provide clear, medically insightful responses.",
     tools=[fetch_data],
-    allow_delegation=True,
-    llm=llm  # Assumes that 'llm' is defined and configured elsewhere.
+    llm=llm
 )
-
-medical_query_response_agent = Agent(
-    role="Medical Research Assistant",
-    goal=(
-        """Provide accurate and detailed responses to queries related to medical research, health topics,  
-        and scientific studies. Utilize reliable sources, such as PubMed abstracts, to enhance responses."""
-    ),
-    backstory=(
-        """You are a knowledgeable medical research assistant with expertise in healthcare,  
-        research methodologies, and scientific literature analysis. Your objective is to deliver  
-        precise, evidence-based insights by retrieving relevant medical articles and synthesizing  
-        findings from scientific literature."""
-    ),
-    tools=[fetch_data],  # Ensure fetch_data is properly defined and tested
-    llm=llm  # Ensure 'llm' is properly initialized
-)
-

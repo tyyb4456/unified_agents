@@ -27,7 +27,7 @@ class CustomSerperDevTool(BaseTool):
 
         payload = json.dumps({
             "q": query,
-            "num": 20,
+            "num": 5,
             "autocorrect": False,
             "tbs": "qdr:d"
         })
@@ -94,59 +94,58 @@ def fetch_investment_analysis(symbol: str):
     except Exception as e:
         return {"error": str(e)}
 
+import requests
 
 @tool("fetch data of medical articles")
-def fetch_data(term: str, retmax: str = "2"):
+def fetch_data(term: str):
     """
-    Fetches abstracts of medical articles from PubMed based on a search term.
+    Fetches the abstract of a medical article from PubMed based on a search term.
     
-    This function uses NCBI's E-utilities to first search for article IDs matching the term
-    and then fetches their abstracts.
+    This function uses NCBI's E-utilities to search for a single article ID matching the term
+    and then fetches its abstract.
     
     Args:
-        trm (str): The search term for querying medical articles.
-        retm (str): The maximum number of article IDs to retrieve.
+        term (str): The search term for querying a medical article.
     
     Returns:
-        str or dict: A string containing the abstracts of the fetched articles, or a dict with an error message.
+        str or dict: A string containing the abstract of the fetched article, or a dict with an error message.
     """
     # Define the URL and parameters for the ESearch endpoint.
     esearch_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
     esearch_params = {
         "db": "pubmed",
         "term": term,
-        "retmax": retmax,
+        "retmax": "1",
         "retmode": "json"
     }
     
     try:
         # Execute the ESearch request.
         esearch_response = requests.get(esearch_url, params=esearch_params)
+        esearch_response.raise_for_status()
         esearch_data = esearch_response.json()
         
-        # Extract the list of article IDs from the JSON response.
-        article_ids = esearch_data.get("esearchresult", {}).get("idlist", [])
-        if not article_ids:
+        # Extract the first article ID from the JSON response.
+        article_id = esearch_data.get("esearchresult", {}).get("idlist", [None])[0]
+        if not article_id:
             return {"error": "No articles found for the given search term."}
-        
-        # Join the article IDs into a comma-separated string.
-        ids_str = ",".join(article_ids)
         
         # Define the URL and parameters for the EFetch endpoint.
         efetch_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
         efetch_params = {
             "db": "pubmed",
-            "id": ids_str,
+            "id": article_id,
             "retmode": "text",
             "rettype": "abstract"
         }
         
         # Execute the EFetch request.
         efetch_response = requests.get(efetch_url, params=efetch_params)
+        efetch_response.raise_for_status()
         
-        # Return the fetched abstracts as plain text.
+        # Return the fetched abstract as plain text.
         return efetch_response.text
         
-    except Exception as e:
+    except requests.RequestException as e:
         return {"error": f"Failed to fetch medical data: {str(e)}"}
 

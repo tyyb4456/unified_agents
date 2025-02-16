@@ -13,7 +13,7 @@ class CrewDefinition:
 
 # Define available crews and their required inputs
 crews = {
-    "financial report agent": CrewDefinition(
+    "financial reporter": CrewDefinition(
         Crew(
             agents=[financial_report_agent],
             tasks=[financial_report_task],
@@ -24,7 +24,7 @@ crews = {
         
     ),
 
-    "investment advisor agent": CrewDefinition(
+    "investment advisor": CrewDefinition(
         Crew(
             agents=[investment_advisor_agent],
             tasks=[investment_advisor_task],
@@ -33,7 +33,7 @@ crews = {
         required_inputs={"symbol": str},
         optional_inputs={"query": str},
     ),
-    "financial query answer agent": CrewDefinition(
+    "financial query answerer": CrewDefinition(
         Crew(
             agents=[query_answerer_agent_financial],
             tasks=[query_answerer_task_financial],
@@ -51,7 +51,7 @@ crews = {
         required_inputs={"topic": str},
     ),
 
-    "new reporting analyst": CrewDefinition(
+    "news reporting analyst": CrewDefinition(
         Crew(
             agents=[reporting_analyst],
             tasks=[reporting_task],
@@ -60,7 +60,7 @@ crews = {
         required_inputs={"topic": str},
     ),
 
-    "medical agent": CrewDefinition(
+    "medical researcher": CrewDefinition(
         Crew(
             agents=[medical_agent],
             tasks=[medical_task],
@@ -70,7 +70,7 @@ crews = {
         optional_inputs={"retmax" : str , "query": str},
     ),
 
-    "medical query answerer agent" : CrewDefinition(
+    "medical query answererer" : CrewDefinition(
         Crew(
             agents=[medical_query_response_agent],
             tasks=[medical_query_answerer_task],

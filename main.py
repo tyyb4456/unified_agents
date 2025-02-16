@@ -16,17 +16,23 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
-def read_root():
-    return {"message": "FastAPI is running!"}
-
-
 class CrewRequest(BaseModel):
     crew_name: str
     inputs: Dict[str, Any]
 
+# Store the last response in memory
+latest_response: Optional[Dict[str, Any]] = None
+
+@app.get("/")
+def read_root():
+    if latest_response is None:
+        return {"message": "FastAPI is running! No response available yet."}
+    return latest_response
+
 @app.post("/execute_crew/")
 async def execute_crew(request: CrewRequest):
+    global latest_response  # Modify global variable
+
     # Check if the crew exists
     if request.crew_name not in crews:
         raise HTTPException(status_code=404, detail="Crew not found")
@@ -42,14 +48,16 @@ async def execute_crew(request: CrewRequest):
             status_code=400,
             detail=f"Missing required inputs: {', '.join(missing_keys)}",
         )
-     # Filter inputs: include only valid required and optional keys
+
+    # Filter inputs: include only valid required and optional keys
     valid_inputs = {k: v for k, v in request.inputs.items() if k in crew_definition.required_inputs or k in crew_definition.optional_inputs}
 
     # Execute the selected crew
     output = crew_definition.crew.kickoff(inputs=valid_inputs)
 
-    return {"crew_name": request.crew_name, "output": output}
+    latest_response = {"crew_name": request.crew_name, "output": output}  # Store response
 
+    return latest_response
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))

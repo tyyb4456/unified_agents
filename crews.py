@@ -42,13 +42,13 @@ crews = {
         required_inputs={"symbol": str, "query": str},
     ),
 
-    "news researcher": CrewDefinition(
+    "trending posts searcher": CrewDefinition(
         Crew(
-            agents=[news_researcher],
-            tasks=[research_task],
+            agents=[trending_posts_agent],
+            tasks=[trending_posts_task],
             process=Process.sequential,
         ),
-        required_inputs={"topic": str},
+        required_inputs={"subreddit_name": str},
     ),
 
     "news reporting analyst": CrewDefinition(

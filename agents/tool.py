@@ -96,6 +96,45 @@ def fetch_investment_analysis(symbol: str):
 
 import requests
 
+clientid = os.getenv("REDDIT_CLIENT_ID")
+clientsecret = os.getenv("REDDIT_CLIENT_SECRET")
+# Reddit API Configuration
+reddit = praw.Reddit(
+    client_id = clientid,
+    client_secret = clientsecret,
+    user_agent="my_APP"
+)
+
+# Sentiment Analyzer
+analyzer = SentimentIntensityAnalyzer()
+
+@tool("fetch trending posts from Reddit")
+def fetch_trending_posts(subreddit_name='all', limit=10):
+    """
+    Fetch trending posts from a given subreddit.
+
+    Args:
+        subreddit_name (str): Name of the subreddit to fetch posts from.
+        limit (int): Number of posts to retrieve.
+
+    Returns:
+        list: A list of dictionaries containing post details (title, score, sentiment, and URL).
+    """
+    subreddit = reddit.subreddit(subreddit_name)
+    posts = []
+
+    for post in subreddit.hot(limit=limit):
+        sentiment = analyzer.polarity_scores(post.title)
+        posts.append({
+            'title': post.title,
+            'score': post.score,
+            'sentiment': sentiment['compound'],
+            'url': post.url
+        })
+    
+    return posts
+
+
 @tool("fetch data of medical articles")
 def fetch_data(term: str):
     """
@@ -115,7 +154,7 @@ def fetch_data(term: str):
     esearch_params = {
         "db": "pubmed",
         "term": term,
-        "retmax": "1",
+        "retmax": "2",
         "retmode": "json"
     }
     
